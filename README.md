@@ -13,6 +13,7 @@ version: '3'
 
 services:
   mariadb:
+    container_name: mariadb
     image: mariadb:latest
     ports:
       - "3306:3306"
@@ -21,6 +22,7 @@ services:
     restart: unless-stopped
 
   adminer:
+    container_name: adminer
     image: adminer
     ports:
       - "8080:8080"
@@ -29,12 +31,14 @@ services:
     restart: unless-stopped
 
   grafana:
+    container_name: grafana
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
     restart: unless-stopped
 
   influxdb:
+    container_name: influxdb
     image: influxdb:latest
     ports:
       - "8086:8086"
@@ -43,6 +47,7 @@ services:
     restart: unless-stopped
 
   mqtt-server:
+    container_name: mqtt-server
     image: eclipse-mosquitto
     ports:
       - "1883:1883"
@@ -55,6 +60,7 @@ services:
     restart: unless-stopped
 
   nodered:
+    container_name: nodered
     image: nodered/node-red:latest
     ports:
       - "1880:1880"
@@ -62,4 +68,20 @@ services:
       - ${PWD}/sandbox/nodered/nodered_data:/data
     restart: unless-stopped
 
+
+```
+at the setting go to /mosquitto/config/mosquitto.conf
+usign this 
+```
+docker exec mqtt-server sh
+```
+
+setting for mosquitto.conf 
+```
+allow_anonymous false
+password_file /mosquitto/config/mosquitto.passwd
+listener 1883 0.0.0.0
+persistence true
+persistence_location /mosquitto/data/
+log_dest file /mosquitto/log/mosquitto.log
 ```
